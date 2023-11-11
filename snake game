@@ -1,0 +1,80 @@
+import random
+import pygame
+
+# Define constants
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SNAKE_SPEED = 10
+FOOD_SIZE = 10
+
+# Define colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+
+# Initialize Pygame
+pygame.init()
+
+# Create a screen
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Create a snake
+snake = [(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)]
+
+# Create a piece of food
+food = (random.randint(0, SCREEN_WIDTH - FOOD_SIZE),
+         random.randint(0, SCREEN_HEIGHT - FOOD_SIZE))
+
+# Game loop
+running = True
+while running:
+
+    # Handle events
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+        # Change the snake's direction if a key is pressed
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:
+                snake.insert(0, (snake[0][0], snake[0][1] - SNAKE_SPEED))
+            elif event.key == pygame.K_DOWN:
+                snake.insert(0, (snake[0][0], snake[0][1] + SNAKE_SPEED))
+            elif event.key == pygame.K_LEFT:
+                snake.insert(0, (snake[0][0] - SNAKE_SPEED, snake[0][1]))
+            elif event.key == pygame.K_RIGHT:
+                snake.insert(0, (snake[0][0] + SNAKE_SPEED, snake[0][1]))
+
+    # Move the snake
+    snake.pop()
+
+    # Check if the snake has eaten the food
+    if snake[0] == food:
+        # Spawn a new piece of food
+        food = (random.randint(0, SCREEN_WIDTH - FOOD_SIZE),
+                 random.randint(0, SCREEN_HEIGHT - FOOD_SIZE))
+
+        # Add a new segment to the snake
+        snake.append((snake[-1][0], snake[-1][1]))
+
+    # Check if the snake has hit itself or the wall
+    if snake[0] in snake[1:] or snake[0][0] < 0 or snake[0][0] >= SCREEN_WIDTH or snake[0][1] < 0 or snake[0][1] >= SCREEN_HEIGHT:
+        # Game over
+        running = False
+
+    # Draw the screen
+    screen.fill(BLACK)
+
+    # Draw the snake
+    for segment in snake:
+        pygame.draw.rect(screen, GREEN, (segment[0], segment[1], FOOD_SIZE, FOOD_SIZE))
+
+    # Draw the food
+    pygame.draw.rect(screen, RED, (food[0], food[1], FOOD_SIZE, FOOD_SIZE))
+
+    # Update the display
+    pygame.display.flip()
+
+# Quit Pygame
+pygame.quit()

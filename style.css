@@ -1,0 +1,201 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    perspective: 1000px;
+}
+
+.calculator {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+    transform-style: preserve-3d;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotateX(0deg); }
+    50% { transform: translateY(-10px) rotateX(2deg); }
+}
+
+.display {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
+    text-align: right;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.previous-operand {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    min-height: 1.5rem;
+}
+
+.current-operand {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 300;
+    word-wrap: break-word;
+    word-break: break-all;
+    min-height: 2.5rem;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.btn {
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    height: 70px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.btn-number {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-number:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.btn-operator {
+    background: rgba(255, 165, 0, 0.3);
+    color: #fff;
+}
+
+.btn-operator:hover {
+    background: rgba(255, 165, 0, 0.5);
+}
+
+.btn-equals {
+    background: rgba(0, 123, 255, 0.3);
+    color: #fff;
+}
+
+.btn-equals:hover {
+    background: rgba(0, 123, 255, 0.5);
+}
+
+.btn-clear {
+    background: rgba(220, 53, 69, 0.3);
+    color: #fff;
+}
+
+.btn-clear:hover {
+    background: rgba(220, 53, 69, 0.5);
+}
+
+.btn-delete {
+    background: rgba(255, 193, 7, 0.3);
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: rgba(255, 193, 7, 0.5);
+}
+
+.span-two {
+    grid-column: span 2;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .calculator {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .current-operand {
+        font-size: 2rem;
+    }
+    
+    .btn {
+        height: 60px;
+        font-size: 1.1rem;
+    }
+    
+    .buttons {
+        gap: 10px;
+    }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    }
+}
+
+/* Animation for button press */
+@keyframes buttonPress {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+.btn.pressed {
+    animation: buttonPress 0.1s ease;
+}
